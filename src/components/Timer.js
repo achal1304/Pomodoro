@@ -6,7 +6,7 @@ import { SECOND, MINUTE } from '../constants/timerConstant';
 
 function Timer({ timeRemaining }) {
     const [timer, settimer] = useState(timeRemaining);
-    const [isPaused, setisPaused] = useState(false);
+    const [isPaused, setisPaused] = useState(true);
     console.log(timeRemaining);
 
     useEffect(() => {
