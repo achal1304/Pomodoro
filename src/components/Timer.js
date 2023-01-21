@@ -10,17 +10,19 @@ function Timer({ timeRemaining }) {
     console.log(timeRemaining);
 
     useEffect(() => {
+        console.log("isPaused",isPaused,"  ")
         var intervalId = 0;
         var timerCurrent = timer;
-        if (!isPaused && timerCurrent > 60) {
+        if (!isPaused && timerCurrent > 0) {
+            console.log("starting timer at time ",timerCurrent);
             intervalId = setInterval(() => {
-                settimer((timerCurrent) = timerCurrent - SECOND)
-            }, SECOND);
-            if(timerCurrent < 60){
+                settimer((timerCurrent) = timerCurrent - 1)
+            }, 1000);
+            if(timerCurrent < 1){
                 clearInterval(intervalId);
             }
         }
-        else if (timerCurrent < 60) {
+        else if (timerCurrent < 1) {
             clearInterval(intervalId)
         }
         else {
@@ -37,8 +39,8 @@ function Timer({ timeRemaining }) {
         <>
             <div className='timer'>
                 {Object.entries({
-                    Minutes: (timer / MINUTE) % 60,
-                    Seconds: (timer / SECOND) % 60
+                    Minutes: (timer / SECOND) % 60,
+                    Seconds: (timer) % 60
                 }).map(([label, value]) => {
                     return (<div key={label} className="col-4">
                         <div className="box">

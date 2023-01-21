@@ -33,14 +33,14 @@ class Home extends Component {
   }
   handleTotalTime = () => {
     console.log(this.state.selectedSeconds, this.state.selectedMinutes)
-    var totalTime = (parseInt(this.state.selectedMinutes) * MINUTE) + (parseInt(this.state.selectedSeconds) * SECOND);
+    var totalTime = (parseInt(this.state.selectedMinutes) * SECOND) + (parseInt(this.state.selectedSeconds));
 
-    console.log(parseInt(this.state.selectedMinutes) * MINUTE);
-    console.log(parseInt(this.state.selectedSeconds) * SECOND);
+    console.log(parseInt(this.state.selectedMinutes) * SECOND);
+    console.log(parseInt(this.state.selectedSeconds));
     console.log('totaltime',totalTime)
 
     this.setState({
-      totalTimer: totalTime*100
+      totalTimer: totalTime
     }, () => {
       console.log(this.state.totalTimer);
     })
@@ -53,7 +53,7 @@ class Home extends Component {
         <input type='number' max={60} min={0} placeholder='Seconds'  onChange={(e) => this.handleSeconds(e)} />
         <button onClick={() => this.handleTotalTime()}>Start Timer</button>
         <h1>{this.state.totalTimer}</h1>
-        {this.state.totalTimer != 0 ? <Timer timeRemaining={this.state.totalTimer} /> : null}
+        {this.state.totalTimer != 0 ? <Timer timeRemaining={this.state.totalTimer} key={this.state.totalTimer}/> : null}
       </>
     )
   }
