@@ -1,12 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import { useRef } from 'react';
 import '../assets/styles/Timer.css'
 import { SECOND, MINUTE } from '../constants/timerConstant';
-
+import AlarmSound from '../assets/music/alarm.mp3'
 
 function Timer({ timeRemaining }) {
     const [timer, settimer] = useState(timeRemaining);
     const [isPaused, setisPaused] = useState(true);
+    const alarmPlayer = useRef(null);
     console.log(timeRemaining);
 
     useEffect(() => {
@@ -16,16 +18,20 @@ function Timer({ timeRemaining }) {
         if (!isPaused && timerCurrent > 0) {
             console.log("starting timer at time ",timerCurrent);
             intervalId = setInterval(() => {
-                settimer((timerCurrent) = timerCurrent - 1)
+                if(timerCurrent >= 1){
+                    timerCurrent -= 1
+                    settimer(timerCurrent)     
+                }
+                else if(!isPaused && timerCurrent < 1){
+                    alarmPlayer.current.play();
+                    setisPaused(true);
+                }    
             }, 1000);
             if(timerCurrent < 1){
                 clearInterval(intervalId);
             }
         }
         else if (timerCurrent < 1) {
-            clearInterval(intervalId)
-        }
-        else {
             clearInterval(intervalId)
         }
         return () => {
@@ -50,7 +56,8 @@ function Timer({ timeRemaining }) {
                     </div>)
                 })}
             </div>
-            <button onClick={() => { setisPaused(!isPaused) }}>Pause</button>
+            <audio ref={alarmPlayer} loop={false} src={AlarmSound}/>
+            <button onClick={() => { setisPaused(!isPaused) }}>{isPaused ? 'Play':'Pause'}</button>
         </>
     )
 }
